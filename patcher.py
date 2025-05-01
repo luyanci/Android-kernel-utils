@@ -55,9 +55,9 @@ def download_patches(patches:dict):
 
 def apply_patches(patches:dict):
     if patches['method'] == "git am":
-        os.system(f"git am kernelsu.patch")
+        os.system("git am kernelsu.patch")
     elif patches['method'] == "patch":
-        os.system(f"patch -p1 < kernelsu.patch")
+        os.system("patch -p1 < kernelsu.patch")
     else:
         logger.error("Unknown method!")
         raise ValueError("Unknown method!")
