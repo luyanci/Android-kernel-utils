@@ -37,7 +37,8 @@ def get_patches():
     except KeyError as e:
         logger.error(f"KeyError: {e}")
         raise
-    
+    return patches
+
 def download_patches(patches:dict):
     if os.path.exists('kernelsu.patch'):
         os.remove('kernelsu.patch')
