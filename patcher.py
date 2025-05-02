@@ -26,12 +26,16 @@ def get_kernel_versions():
         logger.error("MakeFile Not Found!")
         raise
     logger.info(f"Kernel version: {version}.{patchlevel}.{sublevel}")
+    if (int(version) >= 5 and int(patchlevel) >= 10) or int(version) >= 6: # GKI2 detect
+        logger.info("Kernel version is GKI2!")
+        return "GKI2"
     return [version,patchlevel,sublevel]
 
 
 def get_patches():
     kernel_ver=get_kernel_versions()
-    kernel_ver=kernel_ver[0]+"."+kernel_ver[1]
+    if not kernel_ver == "GKI2": # if not GKI2
+        kernel_ver=kernel_ver[0]+"."+kernel_ver[1]
     try:
         patches=res.patches[kernel_ver]
     except KeyError as e:
@@ -40,6 +44,7 @@ def get_patches():
     return patches
 
 def download_patches(patches:dict):
+    logger.info(f"Downloading patches from {patches['link']}")
     if os.path.exists('kernelsu.patch'):
         os.remove('kernelsu.patch')
     r=requests.get(url=patches['link'],stream=True)
@@ -47,7 +52,7 @@ def download_patches(patches:dict):
         size=int(r.headers.get("content-length"))
         bar=tqdm(total=size,unit='iB',unit_scale=True,desc="Downloading Patches...")
         with open('kernelsu.patch','wb') as file:
-            for chunk in r.iter_content(chunk_size=1024*100):
+            for chunk in r.iter_content(chunk_size=1024*3):
                 file.write(chunk)
                 bar.update(len(chunk))
                 bar.refresh()
@@ -55,6 +60,7 @@ def download_patches(patches:dict):
             file.close()
 
 def apply_patches(patches:dict):
+    logger.info(f"Applying patches by {patches['method']}...")    
     if patches['method'] == "git am":
         os.system("git am kernelsu.patch")
     elif patches['method'] == "patch":
@@ -69,5 +75,5 @@ if __name__== "__main__":
     patches=get_patches()
     download_patches(patches)
     apply_patches(patches)
-    logger.info("Patches Applied Successfully!")
+    logger.info("Done!")
     
