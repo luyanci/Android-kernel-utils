@@ -32,8 +32,9 @@ jobs:
         - name: Build with nuitka
           if: ${{matrix.builder == 'nuitka'}}
           run: |
+            sudo apt-get install ccache
             pip install nuitka
-            python3 -m nuitka --onefile --standalone --remove-output --output-dir=dist patcher.py
+            python3 -m nuitka --onefile --standalone -v --remove-output --output-dir=dist patcher.py
             
         - name: Upload
           uses: actions/upload-artifact@v4
