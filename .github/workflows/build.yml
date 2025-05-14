@@ -12,23 +12,32 @@ jobs:
             fail-fast: false
             matrix:
                 os: [ubuntu-latest,ubuntu-22.04]
+                builder: ['pyinstaller','nuitka']
         runs-on: ${{matrix.os}}
         steps:
         - uses: actions/checkout@v4
         - name: Setup Python
           uses: actions/setup-python@v5
           with:
-            python-version: 3.8
+            python-version: 3.9
             cache: 'pip' 
             cache-dependency-path: '**/requirements.txt'
         - name: Install dependencies
           run: pip install -r requirements.txt
-        - name: Build
+        - name: build with pyinstaller
+          if: ${{matrix.builder == 'pyinstaller'}}
           run: |
             pip install pyinstaller
             pyinstaller -F patcher.py
+        - name: Build with nuitka
+          if: ${{matrix.builder == 'nuitka'}}
+          run: |
+            sudo apt-get install ccache
+            pip install nuitka
+            python3 -m nuitka --onefile --standalone --show-progress --remove-output --output-dir=dist patcher.py
+            
         - name: Upload
           uses: actions/upload-artifact@v4
           with: 
-            name: build-${{matrix.os}}
+            name: build-${{matrix.os}}-${{matrix.builder}}
             path: ./dist
