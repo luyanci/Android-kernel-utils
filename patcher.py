@@ -123,7 +123,7 @@ def get_susfs_repo():
 
     logger.info("Cloneing...")
     os.chdir(f"{os.getcwd()}/..")
-    os.system(f"git clone https://gitlab.com/simonpunk/susfs4ksu -b {branch}")
+    os.system(f"git clone https://github.com/shirkneko/susfs4ksu -b {branch}")
 
 
 def main():
