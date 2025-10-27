@@ -30,10 +30,8 @@ def get_kernel_versions():
                     patchlevel = line.split('=')[1].strip()
                 elif line.startswith("SUBLEVEL"):
                     sublevel = line.split('=')[1].strip()
-                elif line.startswith("#"): # skip comments
-                    continue
                 else:
-                    break
+                    continue
     except FileNotFoundError:
         logger.error("MakeFile Not Found!")
         raise
@@ -123,7 +121,7 @@ def get_susfs_repo():
 
     logger.info("Cloneing...")
     os.chdir(f"{os.getcwd()}/..")
-    os.system(f"git clone https://github.com/shirkneko/susfs4ksu -b {branch}")
+    os.system(f"git clone https://gitlab.com/simonpunk/susfs4ksu -b {branch}")
 
 
 def main():
