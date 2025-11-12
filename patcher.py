@@ -14,8 +14,8 @@ manual_hook_patches={
 }
 
 manual_hook_1_6_patches={
-    "4.14": {"method":"git am","link":"https://github.com/xiaomi-sdm678/android_kernel_xiaomi_mojito/commit/60e003b.patch"},
-    "GKI2": {"method":"patch","link":"https://github.com/ShirkNeko/SukiSU_patch/raw/main/hooks/syscall_hooks.patch"},
+    "4.14": {"method":"git am","link":"https://github.com/ximi-mojito-test/mojito_krenol/commit/0cea4dc.patch"},
+    "GKI2": {"method":"patch","link":"https://github.com/SukiSU-Ultra/SukiSU_patch/raw/main/hooks/scope_min_manual_hooks_v1.6.patch"},
 }
 
 susfs_supported={"gki2":['android12-5.10','android13-5.10','android13-5.15','android14-5.15','android14-6.1','android15-6.6'],
